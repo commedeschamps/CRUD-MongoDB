@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Crud Blog Studio</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <header>
+        <div class="header-left">
+          <div class="logo">
+            <i class="fas fa-feather-alt logo-icon"></i>
+            <h1>Crud Blog Studio</h1>
+          </div>
+          <p class="tagline">Create, edit, and manage posts backed by MongoDB.</p>
+        </div>
+        <div class="header-right">
+          <span class="pill">
+            <span class="pulse"></span>
+            Live API: /blogs
+          </span>
+          <button class="icon-btn" id="theme-toggle" title="Toggle dark mode">
+            <i class="fas fa-circle-half-stroke"></i>
+          </button>
+        </div>
+      </header>
+
+      <div class="stats-bar">
+        <div class="stat-card">
+          <i class="fas fa-newspaper stat-icon"></i>
+          <div class="stat-info">
+            <span class="stat-value" id="total-posts">0</span>
+            <span class="stat-label">Total Posts</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <i class="fas fa-users stat-icon"></i>
+          <div class="stat-info">
+            <span class="stat-value" id="total-authors">0</span>
+            <span class="stat-label">Authors</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <i class="fas fa-clock stat-icon"></i>
+          <div class="stat-info">
+            <span class="stat-value" id="latest-date">—</span>
+            <span class="stat-label">Latest Post</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <section class="card">
+          <div class="card-header">
+            <h2><i class="fas fa-pen-nib"></i> Write a post</h2>
+          </div>
+          <form id="blog-form">
+            <div class="field">
+              <label for="title">
+                <i class="fas fa-heading"></i> Title <span class="required">*</span>
+              </label>
+              <input id="title" name="title" required placeholder="Enter an engaging title..." maxlength="100" />
+              <div class="field-footer">
+                <span class="char-count"><span id="title-count">0</span>/100</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="body">
+                <i class="fas fa-align-left"></i> Body <span class="required">*</span>
+              </label>
+              <textarea id="body" name="body" required placeholder="Write your story here..."></textarea>
+              <div class="field-footer">
+                <span class="char-count"><span id="body-count">0</span> characters</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="author">
+                <i class="fas fa-user"></i> Author
+              </label>
+              <input id="author" name="author" placeholder="Anonymous" />
+            </div>
+            <div class="actions">
+              <button class="primary" type="submit" id="submit-btn">
+                <i class="fas fa-paper-plane"></i> Publish
+              </button>
+              <button class="secondary" type="button" id="clear-btn">
+                <i class="fas fa-eraser"></i> Clear
+              </button>
+            </div>
+            <div class="status" id="status"></div>
+          </form>
+        </section>
+
+        <section class="card">
+          <div class="card-header">
+            <h2><i class="fas fa-list"></i> All posts</h2>
+            <div class="header-actions">
+              <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-input" placeholder="Search posts..." />
+              </div>
+              <button class="icon-btn" type="button" id="refresh-btn" title="Refresh posts">
+                <i class="fas fa-sync-alt"></i>
+              </button>
+            </div>
+          </div>
+          <div id="blog-list" class="blog-list">
+            <div class="loading">
+              <div class="spinner"></div>
+              <span>Loading posts...</span>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <footer>
+        <p>Built with <i class="fas fa-heart"></i> using Express & MongoDB</p>
+      </footer>
+    </div>
+
+    <div class="toast-container" id="toast-container"></div>
+
+    <script src="/frontend.js"></script>
+  </body>
+</html>
