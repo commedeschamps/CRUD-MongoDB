@@ -1,3 +1,10 @@
+/**
+ * Blog Model
+ * Defines the schema and model for blog entries
+ * Uses Mongoose for MongoDB interactions
+ * 
+ */
+
 import {Schema, model} from 'mongoose';
 
 const blogSchema = new Schema(

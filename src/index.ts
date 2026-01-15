@@ -1,4 +1,8 @@
-
+/**
+ * Entry Point for Blog Application
+ * Sets up Express server with middleware and routes
+ * Connects to MongoDB and starts listening on specified port
+ */
 import express from "express";
 import cors from "cors";
 import compression from "compression";
@@ -8,7 +12,8 @@ import { createServer } from "http";
 import path from "path";
 import { connectDB } from "./config/db";
 import blogRouter from "./routes/blog.route";
-
+import { HttpError } from "./middleware/error.middleware";
+import { notFoundMiddleware, errorMiddleware } from "./middleware/error.middleware";
 dotenv.config();
 
 const app = express();
@@ -28,6 +33,7 @@ app.use("/blogs", blogRouter);
 
 const publicDir = path.join(__dirname, "public");
 app.use(express.static(publicDir));
+
 app.get("/", (_req, res) => {
   res.sendFile(path.join(publicDir, "index.html"));
 });
@@ -41,7 +47,7 @@ const start = async () => {
   try {
     await connectDB();
     server.listen(PORT, () => {
-      console.log(`Server is running on port ${PORT}`);
+      console.log(`Server is running on port http://localhost:${PORT}`);
     });
   } catch (error) {
     console.error("Failed to start server:", error);
@@ -49,10 +55,9 @@ const start = async () => {
   }
 };
 
+app.use(notFoundMiddleware);
+app.use(errorMiddleware);
+
 void start();
 
-app.use((err: Error, _req: express.Request, res: express.Response, _next: express.NextFunction) => {
-  console.error(err);
-  res.status(500).json({ message: "Internal server error" });
-});
 

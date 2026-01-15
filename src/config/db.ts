@@ -1,3 +1,9 @@
+/**
+ * Database Configuration
+ * Handles MongoDB connection using Mongoose
+ * Reads connection URI from environment variables
+ */
+
 import mongoose from 'mongoose';
 
 //mongoDB connection
@@ -7,7 +13,7 @@ export async function connectDB() {
         throw new Error
         ("Mongo DB URI is not defined in environment variables");
     }
-    await
+    await 
     mongoose.connect(uri ?? "");
     console.log("MongoDB connected");
 }

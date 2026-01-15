@@ -1,3 +1,9 @@
+/**
+ * Blog Routes
+ * Defines API endpoints for blog operations
+ * Maps routes to corresponding controller functions
+ */
+
 import { Router } from "express";
 import * as blogController from "../controllers/blog.controller";
 

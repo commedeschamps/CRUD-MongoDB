@@ -1,3 +1,9 @@
+/**
+ * Blog Service
+ * Provides business logic for blog operations
+ * Interacts with the Blog model for database access
+ */
+
 import { Blog } from "../model/blog";
 
 export type BlogInput = {

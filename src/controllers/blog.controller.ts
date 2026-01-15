@@ -1,7 +1,14 @@
+/**
+ * Blog Controller
+ * Handles HTTP requests for blog operations
+ * Uses blog service for business logic
+ * Implements error handling and input validation
+ */
+
 import { Request, Response } from "express";
 import mongoose from "mongoose";
 import * as blogService from "../services/blog.service";
-
+import {HttpError} from "../middleware/error.middleware";
 function isValidId(id: string) {
   return mongoose.Types.ObjectId.isValid(id);
 }
@@ -13,9 +20,7 @@ export async function createBlog(req: Request, res: Response) {
     const author = String(req.body.author ?? "").trim();
 
     if (!title || !body) {
-      return res.status(400).json({ 
-        message: "title and body are required" 
-      });
+      throw new HttpError("title and body are required", 400);
     }
 
     const created = await blogService.createBlog({
@@ -27,9 +32,7 @@ export async function createBlog(req: Request, res: Response) {
     return res.status(201).json(created);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ 
-      message: "Failed to create blog" 
-    });
+    throw new HttpError("Failed to create blog", 500);
   }
 }
 
@@ -39,9 +42,7 @@ export async function getBlogs(_req: Request, res: Response) {
     return res.status(200).json(blogs);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ 
-      message: "Failed to fetch blogs"
-    });
+    throw new HttpError("Failed to fetch blogs", 500);
   }
 }
 
@@ -50,24 +51,18 @@ export async function getBlogById(req: Request, res: Response) {
     const id = req.params.id as string;
 
     if (!isValidId(id)) {
-      return res.status(400).json({ 
-        message: "Invalid id" 
-      });
+      throw new HttpError("Invalid id", 400);
     }
 
     const blog = await blogService.getBlogById(id);
     if (!blog) {
-      return res.status(404).json({ 
-        message: "Blog not found" 
-      });
+      throw new HttpError("Blog not found", 404);
     }
 
     return res.status(200).json(blog);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ 
-      message: "Failed to fetch blog"
-     });
+    throw new HttpError("Failed to fetch blog", 500);
   }
 }
 
@@ -76,9 +71,7 @@ export async function updateBlog(req: Request, res: Response) {
     const id = req.params.id as string;
 
     if (!isValidId(id)) {
-      return res.status(400).json({
-         message: "Invalid id" 
-        });
+      throw new HttpError("Invalid id", 400);
     }
 
     const title = String(req.body.title ?? "").trim();
@@ -86,7 +79,7 @@ export async function updateBlog(req: Request, res: Response) {
     const author = String(req.body.author ?? "").trim();
 
     if (!title || !body) {
-      return res.status(400).json({ message: "title and body are required" });
+      throw new HttpError("title and body are required", 400);
     }
 
     const updated = await blogService.updateBlog(id, {
@@ -96,13 +89,13 @@ export async function updateBlog(req: Request, res: Response) {
     });
 
     if (!updated) {
-      return res.status(404).json({ message: "Blog not found" });
+      throw new HttpError("Blog not found", 404);
     }
 
     return res.status(200).json(updated);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: "Failed to update blog" });
+    throw new HttpError("Failed to update blog", 500);
   }
 }
 
@@ -111,23 +104,17 @@ export async function deleteBlog(req: Request, res: Response) {
     const id = req.params.id as string;
 
     if (!isValidId(id)) {
-      return res.status(400).json({ 
-        message: "Invalid id" 
-      });
+      throw new HttpError("Invalid id", 400);
     }
 
     const deleted = await blogService.deleteBlog(id);
     if (!deleted) {
-      return res.status(404).json({ 
-        message: "Blog not found" 
-      });
+      throw new HttpError("Blog not found", 404);
     }
 
     return res.status(204).send();
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ 
-      message: "Failed to delete blog" 
-    });
+    throw new HttpError("Failed to delete blog", 500);
   }
 }

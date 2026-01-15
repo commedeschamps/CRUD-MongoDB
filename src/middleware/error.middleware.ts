@@ -1,3 +1,16 @@
+/** 
+ * Error handling middleware for Express.js applications.
+ * Provides a centralized way to handle errors and send appropriate responses.
+ * Includes a custom HttpError class for consistent error representation.
+ * @module error.middleware
+ * @example
+ * import { errorMiddleware, HttpError, notFoundMiddleware } from './middleware/error.middleware';
+ * 
+ * // Usage in app.ts
+ * app.use(notFoundMiddleware);
+ * app.use(errorMiddleware);
+ * */  
+
 import { Request, Response, NextFunction } from 'express';
 
 interface AppError extends Error {

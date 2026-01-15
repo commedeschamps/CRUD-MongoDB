@@ -1,3 +1,10 @@
+/**
+ * Frontend JavaScript for Blog Application
+ * Handles UI interactions, form submissions, and dynamic content rendering
+ * Communicates with backend API for CRUD operations
+ * Includes theme toggling, search filtering, and status notifications
+ */
+
 const apiBase = "/blogs";
 const form = document.getElementById("blog-form");
 const statusEl = document.getElementById("status");
