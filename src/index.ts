@@ -4,9 +4,7 @@
  * Connects to MongoDB and starts listening on specified port
  */
 import express from "express";
-import cors from "cors";
 import compression from "compression";
-import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import { createServer } from "http";
 import path from "path";
@@ -14,20 +12,13 @@ import { connectDB } from "./config/db";
 import blogRouter from "./routes/blog.route";
 import { HttpError } from "./middleware/error.middleware";
 import { notFoundMiddleware, errorMiddleware } from "./middleware/error.middleware";
+
 dotenv.config();
 
 const app = express();
 
 app.use(express.json());
-app.use(cookieParser());
 app.use(compression());
-
-app.use(
-  cors({
-    credentials: true,
-    origin: true
-  })
-);
 
 app.use("/blogs", blogRouter);
 
