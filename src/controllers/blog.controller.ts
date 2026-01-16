@@ -36,9 +36,14 @@ export async function createBlog(req: Request, res: Response) {
   }
 }
 
-export async function getBlogs(_req: Request, res: Response) {
+export async function getBlogs(req: Request, res: Response) {
   try {
-    const blogs = await blogService.getBlogs();
+    const filter = {
+      author: req.query.author as string | undefined,
+      title: req.query.title as string | undefined,
+      body: req.query.body as string | undefined,
+    };
+    const blogs = await blogService.getBlogs(filter);
     return res.status(200).json(blogs);
   } catch (error) {
     console.error(error);
@@ -59,6 +64,38 @@ export async function getBlogById(req: Request, res: Response) {
       throw new HttpError("Blog not found", 404);
     }
 
+    return res.status(200).json(blog);
+  } catch (error) {
+    console.error(error);
+    throw new HttpError("Failed to fetch blog", 500);
+  }
+}
+
+export async function getBlogByBody(req:Request, res: Response) {
+  try {
+    const body = req.params.body as string;
+    
+    const blog = await blogService.getBlogById(body);
+    if (!blog) {
+      throw new HttpError("Blog not found", 404);
+    }
+    
+    return res.status(200).json(blog);
+  } catch (error) {
+    console.error(error);
+    throw new HttpError("Failed to fetch blog", 500);
+  }
+}
+
+export async function getBlogByTitle(req: Request, res: Response) {
+  try {
+    const title = req.params.title as string;
+
+    const blog = await blogService.getBlogById(title);
+    if (!blog) {
+      throw new HttpError("Blog not found", 404);
+    }
+    
     return res.status(200).json(blog);
   } catch (error) {
     console.error(error);
