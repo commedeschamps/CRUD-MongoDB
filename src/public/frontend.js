@@ -30,7 +30,7 @@ let allPosts = [];
 const initTheme = () => {
   const savedTheme = localStorage.getItem("theme") || "light";
   document.documentElement.setAttribute("data-theme", savedTheme);
-  updateThemeIcon(savedTheme);
+  syncThemeToggle(savedTheme);
 };
 
 const toggleTheme = () => {
@@ -38,13 +38,11 @@ const toggleTheme = () => {
   const newTheme = currentTheme === "dark" ? "light" : "dark";
   document.documentElement.setAttribute("data-theme", newTheme);
   localStorage.setItem("theme", newTheme);
-  updateThemeIcon(newTheme);
+  syncThemeToggle(newTheme);
 };
 
-const updateThemeIcon = (theme) => {
-  const icon = themeToggle.querySelector("i");
-  icon.className = "fas fa-circle-half-stroke";
-  icon.style.transform = theme === "dark" ? "rotate(180deg)" : "rotate(0deg)";
+const syncThemeToggle = (theme) => {
+  themeToggle.checked = theme === "dark";
 };
 
 const showToast = (message, type = "success") => {
@@ -297,7 +295,7 @@ listEl.addEventListener("click", async (event) => {
 
 clearBtn.addEventListener("click", resetForm);
 refreshBtn.addEventListener("click", fetchPosts);
-themeToggle.addEventListener("click", toggleTheme);
+themeToggle.addEventListener("change", toggleTheme);
 searchInput.addEventListener("input", (e) => filterPosts(e.target.value));
 titleInput.addEventListener("input", updateCharCount);
 bodyInput.addEventListener("input", updateCharCount);
