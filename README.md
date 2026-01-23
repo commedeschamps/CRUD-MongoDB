@@ -2,7 +2,7 @@
 
 A clean, minimal CRUD API for a blogging platform built with Node.js, Express, TypeScript, and MongoDB. Includes a lightweight frontend UI for creating, editing, and deleting posts.
 
-> **Live Demo:** [blog-application-h9wy.onrender.com](https://crud.commedeschamps.dev/)
+> **Live Demo:** [https://crud.commedeschamps.dev/](https://crud.commedeschamps.dev/)
 
 My first TypeScript project, and I'm genuinely excited!
 
